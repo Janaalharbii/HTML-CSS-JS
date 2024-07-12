@@ -1,0 +1,163 @@
+<html>
+<head>
+    <title>Language App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+    <style>
+        .container {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .language-app {
+            background-color: #f4f4f4;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .app-title {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        #input-box {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+      
+        
+        li.checked {
+            text-decoration: line-through;
+            color: #888;
+        }
+        
+        li span {
+            cursor: pointer;
+            color: #f44336;
+        }
+        
+        li i {
+            cursor: pointer;
+            color: #4CAF50;
+            margin-right: 10px;
+        }
+
+        li {
+           
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: white;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+li span {
+  cursor: pointer;
+  color: #f44336;
+  margin-left: 10px;
+  
+}
+
+li i {
+  cursor: pointer;
+  color: #4CAF50;
+  margin-right: 10px;
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="Language-app">
+            <div class="app-title">
+                <h2><span class="highlighted-text">لغات البرمجة</span></h2>
+             
+            </div>
+            <div class="row">
+                <input type="text" id="input-box" placeholder=" ">
+                <button>Add</button>
+            </div>
+            <ul id="list-container">
+            </ul>
+        </div>
+    </div>
+    <script>
+        const inputBox = document.getElementById("input-box");
+        const button = document.querySelector("button");
+        const list = document.getElementById("list-container");
+
+        function addTask() {
+            if (inputBox.value === '') {
+                alert("you must write something!");
+            } else {
+                let li = document.createElement("li");
+                li.innerHTML = inputBox.value;
+                list.appendChild(li);
+                inputBox.value = '';
+                let span = document.createElement("span");
+                span.innerHTML = "X";
+                li.appendChild(span);
+                let editIcon = document.createElement("i");
+                editIcon.className = "fas fa-edit";
+                li.appendChild(editIcon);
+                editIcon.addEventListener("click", () => {
+                    const newValue = prompt("Enter new value:", li.firstChild.textContent);
+                    if (newValue !== null && newValue !== '') {
+                        li.firstChild.textContent = newValue;
+                        saveData();
+                    }
+                });
+            }
+            saveData();
+        }
+
+        list.addEventListener("click", (e) => {
+            if (e.target.tagName === "LI") {
+                e.target.classList.toggle("checked");
+                saveData();
+            } else if (e.target.tagName === "SPAN") {
+                e.target.parentElement.remove();
+                saveData();
+            }
+        });
+
+        button.addEventListener("click", addTask);
+
+        function saveData() {
+            localStorage.setItem("data", list.innerHTML);
+        }
+
+        
+        const savedData = localStorage.getItem("data");
+      
+    </script>
+</body>
+</html>
